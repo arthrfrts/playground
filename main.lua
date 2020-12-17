@@ -1,4 +1,3 @@
--- Continua em: 27min13s https://youtu.be/u6GWjojPQiM?t=1643
 require "collision"
 
 function love.load()
