@@ -1,0 +1,9 @@
+{
+  "actions" : {
+    "run" : {
+      "enabled" : true,
+      "script" : "#!\/bin\/sh\nlove ."
+    }
+  },
+  "identifier" : "2AF51BD5-D1ED-49CA-8A74-0CB9603E77F4"
+}
