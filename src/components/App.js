@@ -11,6 +11,6 @@ export default class App extends React.Component {
                 <Post title="Título de post 2" />
                 <Post title="Título de post 3" />
             </main>
-        )
+        );
     }
 }
