@@ -1,32 +1,80 @@
-import { Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import { Step, StepLabel, Stepper } from '@material-ui/core';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import React, { useEffect, useState } from 'react';
 import StepPersonalData from './StepPersonalData';
 import StepShippingData from './StepShippingData';
 import StepUserData from './StepUserData';
 
-function SubscribeForm({onSubmit, isDocValid}) {
-  const[step, setStep] = useState(0);
-
-  function currentForm(step) {
-    switch(step) {
-      case 0:
-        return <StepUserData />;
-      case 1:
-        return <StepPersonalData onSubmit={onSubmit} isDocValid={isDocValid} />;
-      case 2:
-        return <StepShippingData />;
-      default:
-        return (
-          <Typography>
-            Erro.
-          </Typography>
-        )
+function SubscribeForm({onSubmit, validations}) {
+  const [step, setStep] = useState(0);
+  const [formData, setFormData] = useState({});
+  
+  useEffect(() => {
+    if(step >= formSteps.length-1) {
+      onSubmit(formData);
     }
+  })
+
+  const formSteps = [
+    <StepUserData
+      onSubmit={collectData}
+      validations={validations}
+    />,
+    <StepPersonalData
+      onSubmit={collectData}
+      validations={validations}
+    />,
+    <StepShippingData
+      onSubmit={collectData}
+      validations={validations}
+    />,
+    <Alert
+      severity="success"
+    >
+      <AlertTitle>
+        Tudo pronto!
+      </AlertTitle>
+      Sua conta foi criada com successo :-)
+    </Alert>
+  ];
+
+  function collectData(data) {
+    setFormData({...formData, ...data});
+
+    nextStep();
+  }
+
+  function nextStep() {
+    setStep(step+1);
   }
 
   return (
     <>
-      {currentForm(step)}
+    <Stepper
+      activeStep={step}
+    >
+      <Step>
+        <StepLabel>
+          Login
+        </StepLabel>
+      </Step>
+      <Step>
+        <StepLabel>
+          Pessoais
+        </StepLabel>
+      </Step>
+      <Step>
+        <StepLabel>
+          Entrega
+        </StepLabel>
+      </Step>
+      <Step>
+        <StepLabel>
+          Finalização
+        </StepLabel>
+      </Step>
+    </Stepper>
+      {formSteps[step]}
     </>
   )
 }

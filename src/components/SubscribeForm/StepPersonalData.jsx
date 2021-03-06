@@ -1,20 +1,42 @@
 import React, { useState } from 'react';
 import { Button, FormControlLabel, Switch, TextField } from '@material-ui/core';
 
-function StepPersonalData({onSubmit, isDocValid}) {
+function StepPersonalData({onSubmit, validations}) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [doc, setDoc] = useState('');
   const [optionPromo, setOptionPromo] = useState(true);
   const [optionNews, setOptionNews] = useState(true);
   const [formErrors, setFormErrors] = useState({doc:{isValid: true, helperText: "Somente números."}});
+
+  function validateFields(event) {
+
+    const {name, value} = event.target;
+    const newState = {...formErrors}
+
+    newState[name] = validations[name](value);
+
+    setFormErrors(newState);
+  }
+
+  function isAllowed() {
+    let allow = true;
+
+    for(let error in formErrors) {
+      allow = formErrors[error].isValid;
+    }
+
+    return allow;
+  }
   
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        console.debug(e);
-        onSubmit({firstName, lastName, doc, optionPromo, optionNews});
+
+        if(isAllowed()) {
+          onSubmit({firstName, lastName, doc, optionPromo, optionNews});
+        }
       }}
     >
       <TextField
@@ -51,11 +73,7 @@ function StepPersonalData({onSubmit, isDocValid}) {
         variant="outlined"
         margin="normal"
         fullWidth
-        onBlur={(e) => {
-          setFormErrors({
-            doc: isDocValid(doc)
-          })
-        }}
+        onBlur={validateFields}
         onChange={(e) => {
           setDoc(e.target.value)
         }}
@@ -94,7 +112,7 @@ function StepPersonalData({onSubmit, isDocValid}) {
         variant="contained"
         color="primary"
       >
-        Cadastrar
+        Próximo
       </Button>
     </form>
   )

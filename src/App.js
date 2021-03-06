@@ -2,6 +2,7 @@ import { Container, Typography } from '@material-ui/core';
 import './App.css';
 import SubscribeForm from './components/SubscribeForm';
 import 'fontsource-roboto';
+import { isDocValid, isPasswordValid } from './models/subscribe';
 
 function App() {
   return (
@@ -17,27 +18,21 @@ function App() {
         Formulário de cadastro
       </Typography>
 
-      <SubscribeForm onSubmit={onFormSubmit} isDocValid={isDocValid} />
+      <SubscribeForm
+        onSubmit={onFormSubmit}
+        validations={{
+          doc: isDocValid,
+          password: isPasswordValid
+        }}
+      />
     </Container>
   );
 }
 
 function onFormSubmit(data) {
-  console.debug(data);
-}
+  console.log('onFormSubmit');
 
-function isDocValid(doc) {
-  if(doc.length !== 11) {
-    return {
-      isValid: false,
-      helperText: "Por favor, preencha um CPF válido"
-    }
-  } else {
-    return {
-      isValid: true,
-      helperText: "Somente números."
-    }
-  }
+  console.debug(data);
 }
 
 export default App;
