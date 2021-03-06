@@ -2,6 +2,7 @@ import { Container, Typography } from '@material-ui/core';
 import './App.css';
 import SubscribeForm from './components/SubscribeForm';
 import 'fontsource-roboto';
+import SubscriptionValidations from './contexts/SubscriptionValidations';
 import { isDocValid, isPasswordValid } from './models/subscribe';
 
 function App() {
@@ -18,13 +19,16 @@ function App() {
         Formulário de cadastro
       </Typography>
 
-      <SubscribeForm
-        onSubmit={onFormSubmit}
-        validations={{
+      <SubscriptionValidations.Provider
+        value={{
           doc: isDocValid,
           password: isPasswordValid
         }}
-      />
+      >
+        <SubscribeForm
+          onSubmit={onFormSubmit}
+        />
+      </SubscriptionValidations.Provider>
     </Container>
   );
 }

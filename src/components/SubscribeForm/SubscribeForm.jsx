@@ -5,7 +5,7 @@ import StepPersonalData from './StepPersonalData';
 import StepShippingData from './StepShippingData';
 import StepUserData from './StepUserData';
 
-function SubscribeForm({onSubmit, validations}) {
+function SubscribeForm({onSubmit}) {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
   
@@ -18,15 +18,12 @@ function SubscribeForm({onSubmit, validations}) {
   const formSteps = [
     <StepUserData
       onSubmit={collectData}
-      validations={validations}
     />,
     <StepPersonalData
       onSubmit={collectData}
-      validations={validations}
     />,
     <StepShippingData
       onSubmit={collectData}
-      validations={validations}
     />,
     <Alert
       severity="success"

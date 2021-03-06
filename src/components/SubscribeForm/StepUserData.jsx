@@ -1,30 +1,14 @@
 import { Button, TextField } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import SubscriptionValidations from '../../contexts/SubscriptionValidations';
+import useErrors from '../../hooks/useErrors';
 
-function StepUserData({onSubmit, validations}) {
+function StepUserData({onSubmit}) {
   const [userMail, setUserMail] = useState('');
   const [userPassword, setUserPassword] = useState('');
-  const [formErrors, setFormErrors] = useState({password:{isValid: true, helperText: ""}});
 
-  function validateFields(event) {
-
-    const {name, value} = event.target;
-    const newState = {...formErrors}
-
-    newState[name] = validations[name](value);
-
-    setFormErrors(newState);
-  }
-
-  function isAllowed() {
-    let allow = true;
-
-    for(let error in formErrors) {
-      allow = formErrors[error].isValid;
-    }
-
-    return allow;
-  }
+  const validations = useContext(SubscriptionValidations);
+  const [formErrors, validateFields, isAllowed] = useErrors(validations);
 
   return (
     <form onSubmit={(e) => {

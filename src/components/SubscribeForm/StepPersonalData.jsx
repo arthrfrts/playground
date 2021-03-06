@@ -1,34 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, FormControlLabel, Switch, TextField } from '@material-ui/core';
+import SubscriptionValidations from '../../contexts/SubscriptionValidations';
+import useErrors from '../../hooks/useErrors';
 
-function StepPersonalData({onSubmit, validations}) {
+function StepPersonalData({onSubmit}) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [doc, setDoc] = useState('');
   const [optionPromo, setOptionPromo] = useState(true);
   const [optionNews, setOptionNews] = useState(true);
-  const [formErrors, setFormErrors] = useState({doc:{isValid: true, helperText: "Somente números."}});
 
-  function validateFields(event) {
+  const validations = useContext(SubscriptionValidations);
 
-    const {name, value} = event.target;
-    const newState = {...formErrors}
+  const [formErrors, validateFields, isAllowed] = useErrors(validations);
 
-    newState[name] = validations[name](value);
-
-    setFormErrors(newState);
-  }
-
-  function isAllowed() {
-    let allow = true;
-
-    for(let error in formErrors) {
-      allow = formErrors[error].isValid;
-    }
-
-    return allow;
-  }
-  
   return (
     <form
       onSubmit={(e) => {
@@ -46,6 +31,7 @@ function StepPersonalData({onSubmit, validations}) {
         label="Nome"
         variant="outlined"
         margin="normal"
+        required
         fullWidth
         onChange={(e) => {
           setFirstName(e.target.value);
@@ -58,6 +44,7 @@ function StepPersonalData({onSubmit, validations}) {
         label="Sobrenome"
         variant="outlined"
         margin="normal"
+        required
         fullWidth
         onChange={(e) => {
           setLastName(e.target.value)
@@ -72,6 +59,7 @@ function StepPersonalData({onSubmit, validations}) {
         helperText={formErrors.doc.helperText}
         variant="outlined"
         margin="normal"
+        required
         fullWidth
         onBlur={validateFields}
         onChange={(e) => {
