@@ -1,48 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, FormControlLabel, Switch, TextField } from '@material-ui/core';
 
-function SubscribeForm() {
-  let firstName = '';
+function SubscribeForm({onSubmit}) {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [doc, setDoc] = useState('');
+  const [optionPromo, setOptionPromo] = useState(true);
+  const [optionNews, setOptionNews] = useState(true);
   
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(firstName)
+        console.debug(e);
+        onSubmit({firstName, lastName, doc, optionPromo, optionNews});
       }}
     >
       <TextField
+        name="firstName"
+        value={firstName}
         id="field_name"
         label="Nome"
         variant="outlined"
         margin="normal"
         fullWidth
-        onChange={e => {
-          firstName = e.target.value;
+        onChange={(e) => {
+          setFirstName(e.target.value);
         }}
       />
       <TextField
+        name="lastName"
+        value={lastName}
         id="field_lastname"
         label="Sobrenome"
         variant="outlined"
         margin="normal"
         fullWidth
+        onChange={(e) => {
+          setLastName(e.target.value)
+        }}
       />
       <TextField
+        name="doc"
+        value={doc}
         id="field_doc"
         label="CPF"
         variant="outlined"
         margin="normal"
         fullWidth
+        onChange={(e) => {
+          setDoc(e.target.value)
+        }}
       />
 
       <FormControlLabel
         label="Promoções"
         control={
           <Switch 
-            name="promos"
-            defaultChecked
+            name="optionPromos"
+            checked={optionPromo}
             color="primary"
+            onChange={(e) => {
+              setOptionPromo(e.target.checked)
+            }}
           />
         }
       />
@@ -51,9 +71,12 @@ function SubscribeForm() {
         label="Novidades"
         control={
           <Switch 
-            name="news"
-            defaultChecked
+            name="optionNews"
+            checked={optionNews}
             color="primary"
+            onChange={(e) => {
+              setOptionNews(e.target.checked)
+            }}
           />
         }
       />

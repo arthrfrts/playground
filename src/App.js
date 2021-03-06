@@ -16,9 +16,14 @@ function App() {
       >
         Formulário de cadastro
       </Typography>
-      <SubscribeForm />
+
+      <SubscribeForm onSubmit={onFormSubmit} />
     </Container>
   );
+}
+
+function onFormSubmit(data) {
+  console.debug(data);
 }
 
 export default App;
