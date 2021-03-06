@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Button, FormControlLabel, Switch, TextField } from '@material-ui/core';
 
-function SubscribeForm({onSubmit}) {
+function SubscribeForm({onSubmit, isDocValid}) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [doc, setDoc] = useState('');
   const [optionPromo, setOptionPromo] = useState(true);
   const [optionNews, setOptionNews] = useState(true);
+  const [formErrors, setFormErrors] = useState({doc:{isValid: true, helperText: "Somente números."}});
   
   return (
     <form
@@ -45,9 +46,16 @@ function SubscribeForm({onSubmit}) {
         value={doc}
         id="field_doc"
         label="CPF"
+        error={!formErrors.doc.isValid}
+        helperText={formErrors.doc.helperText}
         variant="outlined"
         margin="normal"
         fullWidth
+        onBlur={(e) => {
+          setFormErrors({
+            doc: isDocValid(doc)
+          })
+        }}
         onChange={(e) => {
           setDoc(e.target.value)
         }}

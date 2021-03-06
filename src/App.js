@@ -17,13 +17,27 @@ function App() {
         Formulário de cadastro
       </Typography>
 
-      <SubscribeForm onSubmit={onFormSubmit} />
+      <SubscribeForm onSubmit={onFormSubmit} isDocValid={isDocValid} />
     </Container>
   );
 }
 
 function onFormSubmit(data) {
   console.debug(data);
+}
+
+function isDocValid(doc) {
+  if(doc.length !== 11) {
+    return {
+      isValid: false,
+      helperText: "Por favor, preencha um CPF válido"
+    }
+  } else {
+    return {
+      isValid: true,
+      helperText: "Somente números."
+    }
+  }
 }
 
 export default App;
