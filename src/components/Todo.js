@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function Todo(props) {
-  return (
-    <li className="todo stack-small">
+  const [isEditing, setEditing] = useState(false);
+  const [newName, setNewName] = useState('');
+
+  function handleChange(e) {
+    setNewName(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    props.editTask(props.id, newName);
+
+    setNewName();
+    setEditing(false);
+  }
+
+  const viewTemplate = (
+    <div className="stack-small">
       <div className="c-cb">
         <input
           id={props.id}
@@ -17,7 +33,11 @@ export default function Todo(props) {
         </label>
       </div>
       <div className="btn-group">
-        <button type="button" className="btn">
+        <button
+          type="button"
+          className="btn"
+          onClick={() => setEditing(true)}
+        >
           Edit <span className="visually-hidden">{props.name}</span>
         </button>
         <button
@@ -28,6 +48,47 @@ export default function Todo(props) {
           Delete <span className="visually-hidden">{props.name}</span>
         </button>
       </div>
+    </div>
+  );
+
+  const editingTemplate = (
+    <form className="stack-small" onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label className="todo-label" htmlFor={props.id}>
+          New name for {props.name}
+        </label>
+        <input
+          id={props.id}
+          className="todo-text"
+          type="text"
+          value={newName}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="btn-group">
+        <button
+          type="button"
+          className="btn todo-cancel"
+        >
+          Cancel
+          <span className="visually-hidden">renaming {props.name}</span>
+        </button>
+        <button
+          type="submit"
+          className="btn btn__primary todo-edit"
+          onSubmit={handleSubmit}
+        >
+          Save
+          <span className="visually-hidden">new name for {props.name}</span>
+        </button>
+      </div>
+    </form>
+  )
+
+  return (
+    <li className="todo stack-small">
+      {isEditing ? editingTemplate : viewTemplate}
     </li>
   );
 }
