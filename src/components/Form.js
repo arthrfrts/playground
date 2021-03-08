@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 
 function Form({onSubmit}) {
-  const [name, setName] = useState('Using hooks!');
+  const [name, setName] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
+    
+    if (name !== '') {
+      console.debug('Isn\'t empty. Handling submit...')
+      onSubmit(name);
+      setName('');
+    } else {
+      console.debug('Is empty, don\'t do anything.');
+    }
+  }
 
-    onSubmit('Say hello!');
+  function handleChange(e) {
+    setName(e.target.value);
   }
 
   return (
@@ -23,6 +33,8 @@ function Form({onSubmit}) {
         className="input input__lg"
         name="text"
         autoComplete="off"
+        value={name}
+        onChange={handleChange}
       />
 
       <button type="submit" className="btn btn__primary btn__lg">
