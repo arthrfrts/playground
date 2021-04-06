@@ -1,0 +1,1 @@
+Só um exercício de React DOM que desenvolve um bloco de notas.
