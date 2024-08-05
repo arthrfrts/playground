@@ -3,9 +3,9 @@ title: Lista de leitura
 ---
 
 <ol>
-  {% for link in site.links %}
+  {% for article in site.reading-list %}
   <li>
-    <a href="{{ link.url }}">{{ link.title }}</a>
+    <a href="{{ article.url }}">{{ article.title }}</a>
   </li>
   {% endfor %}
 </ol>

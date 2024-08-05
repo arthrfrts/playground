@@ -60,7 +60,7 @@ def parse_article(url):
     url = parser_data.get('url', '')
 
     front_matter = f"""---
-title: {title}
+title: "{title}"
 author: {author}
 date: {date}
 canonical_url: {url}

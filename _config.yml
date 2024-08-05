@@ -13,8 +13,7 @@ author:
   picture: "https://gravatar.com/avatar/63d8285c2a55e1d4fefe7747e2c17ead9d3654dc39c4791adf088484105e5000?size=512"
 
 collections:
-  links:
-    directory: _reading-list
+  reading-list:
     output: true
     permalink: /:collection/:title.html
 
@@ -26,4 +25,4 @@ plugins:
 
 feed:
   collections:
-    - links
+    - reading-list
