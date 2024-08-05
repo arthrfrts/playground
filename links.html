@@ -1,0 +1,11 @@
+---
+title: Lista de leitura
+---
+
+<ol>
+  {% for link in site.links %}
+  <li>
+    <a href="{{ link.url }}">{{ link.title }}</a>
+  </li>
+  {% endfor %}
+</ol>
